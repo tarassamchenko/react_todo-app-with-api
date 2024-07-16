@@ -24,8 +24,16 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     getTodos()
-      .then(setTodos)
-      .catch(() => setError(Error.UnableLoad));
+      .then(fetchedTodos => {
+        setTodos(fetchedTodos);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError(Error.UnableLoad);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const filteredTodos = FilteredTodos(todos, filter);
